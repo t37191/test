@@ -18,7 +18,8 @@
     </Row>
     <Row type="flex" justify="center">
         <Col span="2">
-            <Button type="info" long>阅读全文</Button>
+            <Button v-if="paper.pdf != ''" type="info" long><a :href="paper.pdf">阅读全文</a></Button>
+            <Button v-else type="info" long disabled>阅读全文</Button>
         </Col>
         <Col span="1">
         </Col>
@@ -70,6 +71,9 @@ export default {
     margin-top: 0.5em;
     margin-bottom: 0.5em;
     text-align: left;
+}
+button a {
+    color: white;
 }
 </style>
 

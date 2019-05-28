@@ -8,6 +8,7 @@ import SearchList from './components/SearchList'
 import Paper from './components/Paper'
 import Expert from './components/Expert'
 import UserFav from './components/UserFav'
+import ForumNewTopic from './components/ForumNewTopic'
 
 export default [
     {
@@ -29,6 +30,10 @@ export default [
     {
         path: '/forum',
         component: ForumList
+    },
+    {
+        path: '/forum/new',
+        component: ForumNewTopic
     },
     {
         path: '/user/:userId',

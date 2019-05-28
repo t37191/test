@@ -2,14 +2,13 @@
   <div id="app">
     <Layout>
         <Header>
-          <Menu mode="horizontal" theme="dark" active-name="1">
+          <Menu mode="horizontal" theme="dark" active-name="0">
               <div @click="navHome()">
                 <img class="layout-logo" src="./assets/logo.png" alt="">
               </div>
               <div class="layout-nav-1">
                   <MenuItem name="1">
-                      <Icon type="ios-navigate"></Icon>
-                      Item 1
+                      <router-link tag="span" to="/forum/new">发帖</router-link>
                   </MenuItem>
                   <MenuItem name="2">
                       <Icon type="ios-keypad"></Icon>

@@ -45,7 +45,7 @@
                     {{ result.year }}
                 </Col>
                 <Col span="3">
-                    <a :href="result.pdf">下载</a>
+                    <a v-if="result.pdf != ''" :href="result.pdf">下载</a>
                 </Col>
                 <Col span="2">
                     
