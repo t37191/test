@@ -109,7 +109,7 @@
                                   .then(res => {
                                     localStorage.token = res.data.token
                                     this.$store.commit('userSignin', res.data.user_id, this.formValidate.name)
-                                    this.$route.push('/')
+                                    this.$router.push('/')
                                 })
                             }
                             else {

@@ -32,7 +32,7 @@ export default {
             types: [
                 {
                     id: 0,
-                    type: 'keyword',
+                    type: 'keywords',
                     typeName: '关键字'
                 },
                 {

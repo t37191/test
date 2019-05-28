@@ -37,7 +37,7 @@ export default {
         }
     },
     beforeMount: function() {
-        this.$http.get('/paper/' + this.$route.params.paperId)
+        this.$http.get(`/paper?id=${this.$route.params.paperId}`)
             .then(res => {
                 this.paper = res.data
             })
