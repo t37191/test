@@ -78,7 +78,7 @@ export default {
         updateList() {
             this.content = this.$route.params.searchContent
             this.type= this.$route.params.searchType
-            this.$http.get(`/search/count`)
+            this.$http.get(`/search/count?_type=${this.type}&_content=${this.content}`)
                 .then(res => {
                     this.resNumber = parseInt(res.data)
                     this.changePage(1)
