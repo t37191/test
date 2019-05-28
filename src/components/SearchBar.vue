@@ -32,27 +32,22 @@ export default {
             types: [
                 {
                     id: 0,
-                    type: 'theme',
-                    typeName: '主题'
+                    type: 'keyword',
+                    typeName: '关键字'
                 },
                 {
                     id: 1,
-                    type: 'fulltext',
-                    typeName: '全文'
-                },
-                {
-                    id: 2,
-                    type: 'title',
+                    type: 'titab',
                     typeName: '篇名'
                 },
                 {
-                    id: 3,
+                    id: 2,
                     type: 'author',
                     typeName: '作者'
                 }
             ],
-            selectedType: 'fulltext',
-            selectedTypeName: '全文',
+            selectedType: 'titab',
+            selectedTypeName: '篇名',
             searchContent: ''
         }
     },
