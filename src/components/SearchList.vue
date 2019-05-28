@@ -80,7 +80,7 @@ export default {
             this.type= this.$route.params.searchType
             this.$http.get(`/search/count?_type=${this.type}&_content=${this.content}`)
                 .then(res => {
-                    this.resNumber = parseInt(res.data.number)
+                    this.resNumber = parseInt(res.data)
                     this.changePage(1)
                 })
         }

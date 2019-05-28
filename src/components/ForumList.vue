@@ -71,7 +71,7 @@ export default {
     beforeMount: function() {
         this.$http.get('/bbs_topic/count')
             .then(res => {
-                this.topicNumber = res.data.topic_number
+                this.topicNumber = parseInt(res.data)
 
             })
         this.changePage(1)
