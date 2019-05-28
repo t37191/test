@@ -4,12 +4,12 @@
         <Col span="16">
             <h2>{{ paper.title }}</h2>
             <p>
-                <span v-for="author in paper.author" :key="author.author_id">{{ author.author_name }} &nbsp;&nbsp;&nbsp;</span>
+                <span v-for="author in paper.authors" :key="author.id">{{ author.name }} &nbsp;&nbsp;&nbsp;</span>
             </p>
             <Divider/>
-            <p class="abstract">摘要：{{ paper.abstract }}</p>
+            <p class="abstract">摘要：{{ paper.abstr }}</p>
             <p class="keyword">
-                关键词： <span v-for="keyword in paper.keyword" :key="keyword.keyword">{{ keyword.keyword }} &nbsp;&nbsp;</span>
+                关键词： <span v-for="keyword in paper.keywords" :key="keyword">{{ keyword }} &nbsp;&nbsp;</span>
             </p>
         </Col>
     </Row>

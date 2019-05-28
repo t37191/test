@@ -29,23 +29,23 @@
             </Row>
             <Divider/>
             <Row class="list-content"
-                v-for="result in resList" :key="result.outcomeId">
+                v-for="result in resList" :key="result.id">
                 <Col span="10" class="content-title">
-                    <router-link :to="`/paper/${result.outcomeId}`">{{ result.title }}</router-link>
+                    <router-link :to="`/paper/${result.id}`">{{ result.title }}</router-link>
                 </Col>
                 <Col span="3">
-                    <span v-for="author in result.author" :key="author.author_id">
-                        <router-link :to="`/expert/${author.author_id}`">&nbsp;{{ author.author_name }}&nbsp;</router-link>
+                    <span v-for="author in result.authors" :key="author.id">
+                        <router-link :to="`/expert/${author.id}`">&nbsp;{{ author.name }}&nbsp;</router-link>
                     </span>
                 </Col>
                 <Col span="3">
-                    {{ result.source }}
+                    {{ result.source }}&nbsp;
                 </Col>
                 <Col span="3">
-                    {{ result.time }}
+                    {{ result.year }}
                 </Col>
                 <Col span="3">
-                    下载
+                    <a :href="result.pdf">下载</a>
                 </Col>
                 <Col span="2">
                     
