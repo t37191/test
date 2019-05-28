@@ -104,10 +104,13 @@
                         }
                         this.$http.post('/user/signup-user', data)
                           .then(res => {
-                            if(res.data.token != '') {
-                                localStorage.token = res.token
-                                this.$store.commit('userSignin', res.data.user_id, this.formValidate.name)
-                                this.$route.push('/')
+                            if(res.data.status == 'success') {
+                                this.$http.post('/user/login', data)
+                                  .then(res => {
+                                    localStorage.token = res.data.token
+                                    this.$store.commit('userSignin', res.data.user_id, this.formValidate.name)
+                                    this.$route.push('/')
+                                })
                             }
                             else {
                                 this.$Message.error(res.data.msg)
