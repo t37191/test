@@ -98,19 +98,23 @@
                         const data = {
                             username: this.formValidate.name,
                             password: this.formValidate.passwd,
-                            point: 0,
+                            email: this.formValidate.mail,
+                            // point: 0,
                             age: this.formValidate.age
                         }
                         this.$http.post('/user/signup-user', data)
-                                  .then(res => {
-                            if(res.data.token) {
+                          .then(res => {
+                            if(res.data.token != '') {
                                 localStorage.token = res.token
+                                this.$store.commit('userSignin', res.data.user_id, this.formValidate.name)
+                                this.$route.push('/')
                             }
-                            this.$store.commit('userSignin', res.data.user_id, this.formValidate.name)
-                            this.$route.push('/')
+                            else {
+                                this.$Message.error(res.data.msg)
+                            }
                         }).catch(error => {
                             console.log(error)
-                            this.$Message.error(error.data)
+                            // this.$Message.error(error.data)
                         })
                     } else {
                         this.$Message.error('Fail!');

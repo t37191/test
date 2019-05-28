@@ -55,15 +55,19 @@
                             password: this.formValidate.passwd
                         }
                         this.$http.post('/user/login', data)
-                            .then(res => {
+                          .then(res => {
+                            if (res.data.token != '') {
                                 localStorage.token = res.data.token
                                 this.$store.commit('userSignin', res.data.user_id, this.formValidate.username)
                                 console.log(localStorage.token)
                                 this.$router.push('/')
-                            })
-                            .catch(error => {
-                                alert('error')
-                            })
+                            }
+                            else {
+                                this.$Message.error(res.data.msg)
+                            }
+                        }).catch(error => {
+                            alert('error')
+                        })
                     } else {
                         this.$Message.error('Fail!');
                     }
