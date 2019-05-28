@@ -120,6 +120,7 @@ export default {
 .list-content div {
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .content-title a {
     color: black;
