@@ -78,7 +78,7 @@ export default {
         updateList() {
             this.content = this.$route.params.searchContent
             this.type= this.$route.params.searchType
-            this.$http.get(`/search/count?_type=${this.type}&_content=${this.content}`)
+            this.$http.get(`/search/count`)
                 .then(res => {
                     this.resNumber = parseInt(res.data)
                     this.changePage(1)
@@ -116,6 +116,10 @@ export default {
     height: 3.5em;
     line-height: 3.5em;
     border-bottom: 1px #e8eaec solid;
+}
+.list-content div {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .content-title a {
     color: black;
