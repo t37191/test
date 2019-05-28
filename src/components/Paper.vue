@@ -4,7 +4,10 @@
         <Col span="16">
             <h2>{{ paper.title }}</h2>
             <p>
-                <span v-for="author in paper.authors" :key="author.id">{{ author.name }} &nbsp;&nbsp;&nbsp;</span>
+                <span v-for="author in paper.authors" :key="author.id">&nbsp;&nbsp;{{ author.name }} &nbsp;&nbsp;</span>
+            </p>
+            <p>
+                {{ paper.year }}
             </p>
             <Divider/>
             <p class="abstract">摘要：{{ paper.abstr }}</p>
