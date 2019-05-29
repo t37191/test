@@ -19,19 +19,26 @@
     </Row>
     <Row type="flex" justify="center" :gutter="24" style="margin-top: 1em;">
         <Col span="3">
-            <Menu active-name="1">
-                <MenuItem name="1">
+            <Menu active-name="fav" @on-select="changeRoute">
+                <!-- <MenuItem name="1">
                     <Icon type="md-document" />
-                    
                     <router-link tag="span" :to=favLink>收藏</router-link>
+                </MenuItem> -->
+                <MenuItem name="fav">
+                    <Icon type="md-document" />
+                    <span>收藏</span>
                 </MenuItem>
-                <MenuItem name="2">
+                <MenuItem name="follow">
                     <Icon type="ios-person" />
                     关注的人
                 </MenuItem>
-                <MenuItem name="3">
+                <MenuItem name="">
                     <Icon type="md-chatbubbles" />
                     动态
+                </MenuItem>
+                <MenuItem v-if="$route.params.userId == $store.state.userData.userId" name="point">
+                    <Icon type="md-chatbubbles" />
+                    我的钱包
                 </MenuItem>
                 <!--div>
                     <Divider/>
@@ -59,12 +66,17 @@
 
 <script>
 export default {
+    methods: {
+        changeRoute: function(name) {
+            this.$router.push(`/user/${this.$route.params.userId}/${name}`)
+        }
+    },
     computed: {
         favLink: function() {
             return '/user/' + this.$route.params.userId + '/fav'
         }
     },
-    beforeMount: function() {
+    Mount: function() {
         this.$router.push(this.favLink)
     }
 }

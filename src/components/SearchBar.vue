@@ -1,6 +1,6 @@
 <template>
 <div>
-    <Row>
+    <Row style="padding: 0.25em; background-color: #2d8cf0;">
         <Col span="4">
             <Dropdown trigger="click" @on-click="changeType"
                 style="width: 100%; height: 100%;">

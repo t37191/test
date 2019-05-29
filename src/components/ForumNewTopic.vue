@@ -14,7 +14,7 @@
     <Row type="flex" justify="center">
         <Col span="16">
             <Row type="flex" justify="end">
-                <Button @click="commit">commit</Button>
+                <Button type="info" ghost @click="commit">commit</Button>
             </Row>
         </Col>
     </Row>

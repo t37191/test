@@ -9,7 +9,13 @@ export const Axios = axios.create({
  // 在发送请求之前做某件事
 Axios.interceptors.request.use(config => {
     if (localStorage.token) {   
-        config.headers.Authorization = 'Bearer ' + localStorage.token
+        axios.get('http://localhost:8080/user/refreshtoken?_token='+localStorage.token)
+          .then(res => {
+            if (res.data != '' || res.data != null) {
+              localStorage.token = res.data
+            }
+            config.headers.Authorization = 'Bearer ' + localStorage.token
+          })
     }
     return config
 },error =>{

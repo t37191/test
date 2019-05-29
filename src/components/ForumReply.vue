@@ -54,7 +54,7 @@ export default {
         reply_content: ''
     },
     beforeMount: function() {
-        this.$http.get('/bbs_reply?r_topic_id=' + this.topic_id + '&r_reply_id=' + this.rid + '&_sort=id&_limit=10')
+        this.$http.get(`/bbs_reply?r_topic_id=${this.topic_id}&r_reply_id=${this.rid}&_sort=id&_limit=10`)
             .then(res => {
                 this.replies = res.data
             })

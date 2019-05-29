@@ -12,7 +12,7 @@
             <Divider/>
             <p class="abstract">摘要：{{ paper.abstr }}</p>
             <p class="keyword">
-                关键词： <span v-for="keyword in paper.keywords" :key="keyword">{{ keyword }} &nbsp;&nbsp;</span>
+                关键词： <router-link v-for="keyword in paper.keywords" :key="keyword" :to="`/keyword/${keyword}`">&nbsp;{{ keyword }}&nbsp;</router-link>
             </p>
         </Col>
     </Row>

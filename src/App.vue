@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <div id="app" ref="app">
     <Layout>
-        <Header>
+        <Header ref="header">
           <Menu mode="horizontal" theme="dark" active-name="0">
               <div @click="navHome()">
                 <img class="layout-logo" src="./assets/logo.png" alt="">
@@ -22,10 +22,10 @@
               </div>
           </Menu>
         </Header>
-        <Content style="background-color: white;">
+        <Content :style="{'background-color': 'white'}">
           <router-view></router-view>
         </Content>
-        <Footer class="layout-footer-center">2019-2020 &copy; </Footer>
+        <Footer ref="footer" class="layout-footer-center">2019-2020 &copy; </Footer>
     </Layout>
   </div>
 </template>
@@ -35,6 +35,11 @@ import TopSigninMenu from "./components/TopSigninMenu"
 
 export default {
   name: 'app',
+  data() {
+    return {
+      minHeight: 0
+    }
+  },
   components: {
     TopSigninMenu
   },
@@ -42,7 +47,16 @@ export default {
     navHome() {
       location.href = '/'
     }
-  }
+  },
+  // watch: {
+  //   $route: function() {
+  //     this.minHeight = window.innerHeight
+  //     let headerHeight = this.$refs.header.offsetHeight
+  //     let footerHeight = this.$refs.footer.offsetHeight
+  //     this.minHeight = window.innerHeight - headerHeight - footerHeight
+  //     console.log(headerHeight)
+  //   }
+  // }
 }
 </script>
 

@@ -13,6 +13,9 @@
                 <DropdownItem>
                     <router-link tag="span" :to="`/user/${$store.state.userData.userId}`">My Profile</router-link>
                 </DropdownItem>
+                <DropdownItem v-if="$store.state.userData.isExpert">
+                    <router-link tag="span" :to="`/expert/trendPost`">发布动态</router-link>
+                </DropdownItem>
                 <DropdownItem>
                     <span @click="signout">Sign out</span>
                 </DropdownItem>
@@ -26,7 +29,8 @@ export default {
     methods: {
         signout: function() {
             this.$store.commit('userSignout')
-            console.log(this.$store.state.userData.isSignin)
+            console.log(this.$route.fullpath)
+            this.$router.push('/')
         }
     },
     computed: {

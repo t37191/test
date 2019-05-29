@@ -9,6 +9,10 @@ import Paper from './components/Paper'
 import Expert from './components/Expert'
 import UserFav from './components/UserFav'
 import ForumNewTopic from './components/ForumNewTopic'
+import Keyword from './components/Keyword'
+import UserFollow from './components/UserFollow'
+import UserPoint from './components/UserPoint'
+import Trend from './components/Trend'
 
 export default [
     {
@@ -42,6 +46,14 @@ export default [
             {
                 path: 'fav',
                 component: UserFav
+            },
+            {
+                path: 'follow',
+                component: UserFollow
+            },
+            {
+                path: 'point',
+                component: UserPoint
             }
         ]
     },
@@ -56,5 +68,13 @@ export default [
     {
         path: '/expert/:expertId',
         component: Expert
+    },
+    {
+        path: '/keyword/:keyword',
+        component: Keyword
+    },
+    {
+        path: '/trend/:trendId',
+        component: Trend
     }
 ]
