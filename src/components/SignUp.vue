@@ -107,8 +107,7 @@
                             if(res.data.status == 'success') {
                                 this.$http.post('/user/login', data)
                                   .then(res => {
-                                    localStorage.token = res.data.token
-                                    this.$store.commit('userSignin', res.data.user_id, this.formValidate.name)
+                                    this.$store.commit('userSignin', {userId:res.data.user_id, userName:this.formValidate.name, token:res.data.token})
                                     this.$router.push('/')
                                 })
                             }

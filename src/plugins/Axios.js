@@ -11,13 +11,17 @@ Axios.interceptors.request.use(config => {
     if (localStorage.token) {   
         axios.get('http://localhost:8080/user/refreshtoken?_token='+localStorage.token)
           .then(res => {
-            if (res.data != '' || res.data != null) {
+            if (res.data != '' || res.data != null || res.data != undefined) {
               localStorage.token = res.data
             }
             config.headers.Authorization = 'Bearer ' + localStorage.token
-          })
+        }).catch(err => {
+            config.headers.Authorization = 'Bearer ' + localStorage.token
+        })
     }
+    config.headers.Authorization = 'Bearer ' + localStorage.token
     return config
+    
 },error =>{
     alert("错误的传参", 'fail')
     return Promise.reject(error)

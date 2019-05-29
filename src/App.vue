@@ -43,6 +43,11 @@ export default {
   components: {
     TopSigninMenu
   },
+  mounted: function() {
+    if (this.$store.state.userData.userId == 0 && localStorage.userId != 0) {
+      this.$store.commit('updateUserData')
+    }
+  },
   methods: {
     navHome() {
       location.href = '/'

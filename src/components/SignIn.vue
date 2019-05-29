@@ -57,9 +57,9 @@
                         this.$http.post('/user/login', data)
                           .then(res => {
                             if (res.data.token != '') {
-                                localStorage.token = res.data.token
-                                this.$store.commit('userSignin', res.data.user_id, this.formValidate.username)
-                                console.log(localStorage.token)
+                                this.$store.commit('userSignin', {userId:res.data.user_id, userName:this.formValidate.name, token:res.data.token})
+                                console.log('signin page')
+                                console.log(res.data.token)
                                 this.$router.push('/')
                             }
                             else {

@@ -22,7 +22,7 @@ const store = new Vuex.Store({
     editorContent: '',
     userData: {
       isSignin: false,
-      userId: 1,
+      userId: 0,
       userName: ''
     }
   },
@@ -30,15 +30,28 @@ const store = new Vuex.Store({
     changeContent(state, text) {
       state.editorContent = text
     },
-    userSignin(state, userId, userName) {
+    userSignin(state, params) {
+      console.log('store')
+      console.log(params.token)
       state.userData.isSignin = true
-      state.userData.userId = userId
-      state.userData.userName = userName
+      state.userData.userId = params.userId
+      state.userData.userName = params.userName
+      localStorage.token = params.token
+      localStorage.userId = state.userData.userId
+      localStorage.userName = state.userData.userName
     },
     userSignout(state) {
       state.userData.isSignin = false
       state.userData.userId = 0
       state.userData.userName = ''
+      localStorage.token = ''
+      localStorage.userId = 0
+      localStorage.userName = ''
+    },
+    updateUserData(state) {
+      state.userData.isSignin = true
+      state.userData.userId = localStorage.userId
+      state.userData.userName = localStorage.userName
     }
   }
 })
