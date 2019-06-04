@@ -1,10 +1,10 @@
 <template>
 <div>
-    <Row style="padding: 0.25em; background-color: #2d8cf0;">
+    <Row type="flex" justify="center">
         <Col span="4">
             <Dropdown trigger="click" @on-click="changeType"
-                style="width: 100%; height: 100%;">
-                <Button style="width: 100%; height: 100%;">
+                style="width: 100%; height: 3em;">
+                <Button style="width: 100%; height: 3em;">
                     {{ selectedTypeName }}
                     <Icon type="ios-arrow-down"></Icon>
                 </Button>
@@ -16,10 +16,9 @@
                 </DropdownMenu>
             </Dropdown>
         </Col>
-        <Col span="20">
-            <Input search v-model="searchContent" 
-                @on-search="search"
-                enter-button="Search" placeholder="Enter something..." />
+        <Col span="16">
+            <Input search v-model="searchContent" size="large"
+                @on-search="search" placeholder="Enter something..." />
         </Col>
     </Row>
 </div>

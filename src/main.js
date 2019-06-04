@@ -23,7 +23,8 @@ const store = new Vuex.Store({
     userData: {
       isSignin: false,
       userId: 0,
-      userName: ''
+      userName: '',
+      isAdmin: false
     }
   },
   mutations: {
@@ -36,22 +37,27 @@ const store = new Vuex.Store({
       state.userData.isSignin = true
       state.userData.userId = params.userId
       state.userData.userName = params.userName
+      state.userData.isAdmin = params.isAdmin
       localStorage.token = params.token
       localStorage.userId = state.userData.userId
       localStorage.userName = state.userData.userName
+      localStorage.isAdmin = state.userData.isAdmin
     },
     userSignout(state) {
       state.userData.isSignin = false
       state.userData.userId = 0
       state.userData.userName = ''
+      state.userData.isAdmin = false
       localStorage.token = ''
       localStorage.userId = 0
       localStorage.userName = ''
+      localStorage.isAdmin = false
     },
     updateUserData(state) {
       state.userData.isSignin = true
       state.userData.userId = localStorage.userId
       state.userData.userName = localStorage.userName
+      state.userData.isAdmin = localStorage.isAdmin
     }
   }
 })

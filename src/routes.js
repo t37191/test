@@ -76,5 +76,9 @@ export default [
     {
         path: '/trend/:trendId',
         component: Trend
+    },
+    {
+        path: '/trendPost',
+        component: ForumNewTopic
     }
 ]

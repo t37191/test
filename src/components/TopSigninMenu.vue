@@ -13,8 +13,9 @@
                 <DropdownItem>
                     <router-link tag="span" :to="`/user/${$store.state.userData.userId}`">My Profile</router-link>
                 </DropdownItem>
-                <DropdownItem v-if="$store.state.userData.isExpert">
-                    <router-link tag="span" :to="`/expert/trendPost`">发布动态</router-link>
+                <!-- <DropdownItem v-if="$store.state.userData.isAdmin"> -->
+                <DropdownItem>
+                    <router-link tag="span" :to="`/trendPost`">发布动态</router-link>
                 </DropdownItem>
                 <DropdownItem>
                     <span @click="signout">Sign out</span>

@@ -8,48 +8,23 @@
     <Row type="flex" justify="center">
         <Col span="16">
             <Row class="list-title">
-                <Col span="10">
-                    题名
-                </Col>
-                <Col span="3">
-                    作者
-                </Col>
-                <Col span="3">
-                    来源
-                </Col>
-                <Col span="3">
-                    发表时间
-                </Col>
-                <Col span="3">
-                    下载
-                </Col>
-                <Col span="2">
-                    收藏
-                </Col>
             </Row>
-            <Divider/>
-            <Row class="list-content"
-                v-for="result in resList" :key="result.id">
-                <Col span="10" class="content-title">
-                    <router-link :to="`/paper/${result.id}`">{{ result.title }}</router-link>
-                </Col>
-                <Col span="3">
+            <Row v-for="result in resList" :key="result.id" class="content">
+                <p class="content-title">
+                    <router-link :to="`/paper/${result.id}`" v-html="result.title"></router-link>
+                </p>
+                <p class="content-info">
                     <span v-for="author in result.authors" :key="author.id">
                         <router-link :to="`/expert/${author.id}`">&nbsp;{{ author.name }}&nbsp;</router-link>
                     </span>
-                </Col>
-                <Col span="3">
-                    {{ result.source }}&nbsp;
-                </Col>
-                <Col span="3">
+                </p>
+                <p class="content-info">
                     {{ result.year }}
-                </Col>
-                <Col span="3">
-                    <a v-if="result.pdf != ''" :href="result.pdf">下载</a>
-                </Col>
-                <Col span="2">
-                    
-                </Col>
+                </p>
+                <p class="content-abstract" v-html="result.abstr">
+                </p>
+                <p>点击量：{{ result.cnt }}</p>
+                <Divider/>
             </Row>
             <Page :total=resNumber show-total @on-change="changePage" />
         </Col>
@@ -73,12 +48,17 @@ export default {
             this.$http.get(`/search?_type=${this.type}&_content=${this.content}&_start=${(page-1)*10}&_limit=10`)
                 .then(res => {
                     this.resList = res.data
+                    for (let res of this.resList) {
+                        res.title = res.title.replace(new RegExp(this.content, 'g'), `<span style="color:#ed4014">${this.content}</span>`)
+                        res.abstr = res.abstr.replace(new RegExp(this.content, 'g'), `<span style="color:#ed4014">${this.content}</span>`)
+                    }
                 })
         },
         updateList() {
             this.content = this.$route.params.searchContent
             this.type= this.$route.params.searchType
             this.$http.get(`/search/count?_type=${this.type}&_content=${this.content}`)
+            // this.$http.get(`/search/count`)
                 .then(res => {
                     this.resNumber = parseInt(res.data)
                     this.changePage(1)
@@ -112,22 +92,23 @@ export default {
     margin-top: 1em;
     border-top: 3px #999 solid;
 }
-.list-content {
-    height: 3.5em;
-    line-height: 3.5em;
-    border-bottom: 1px #e8eaec solid;
-}
-.list-content div {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-.content-title a {
-    color: black;
+.content {
+    text-align: left;
 }
 .content-title {
     font-size: 17px;
-    text-align: left;
+}
+.content-abstract {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+.content-info {
+    color: #808695;
+}
+.content-info a {
+    color: #808695;
 }
 </style>
 

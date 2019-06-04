@@ -6,7 +6,7 @@
               <div @click="navHome()">
                 <img class="layout-logo" src="./assets/logo.png" alt="">
               </div>
-              <div class="layout-nav-1">
+              <!-- <div class="layout-nav-1">
                   <MenuItem name="1">
                       <router-link tag="span" to="/forum/new">发帖</router-link>
                   </MenuItem>
@@ -14,7 +14,7 @@
                       <Icon type="ios-keypad"></Icon>
                       <router-link tag="span" to="/forum">讨论区</router-link>
                   </MenuItem>
-              </div>
+              </div> -->
               <div class="layout-nav-2">
                   <MenuItem name="3">
                       <TopSigninMenu/>
@@ -42,6 +42,13 @@ export default {
   },
   components: {
     TopSigninMenu
+  },
+  watch: {
+    $route: function() {
+      if (localStorage.token == '' || localStorage.token == undefined || localStorage.token == null) {
+        this.$store.commit('userSignout')
+      }
+    }
   },
   mounted: function() {
     if (this.$store.state.userData.userId == 0 && localStorage.userId != 0) {

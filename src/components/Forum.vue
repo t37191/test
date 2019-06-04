@@ -9,7 +9,7 @@
             <Col class="profile-bar" span="2">
                 <img class="profile-pic" src="../assets/logo.png" alt="">
                 <br>
-                some user
+                <router-link :to="`/user/${firstReply.user_id}`">{{ firstReply.user_name }}</router-link>
             </Col>
             <Col class="context-bar" span="12">
                 <span v-html="firstReply.reply_content"/>
@@ -19,7 +19,7 @@
             <Col class="profile-bar" span="2">
                 <img class="profile-pic" src="../assets/logo.png" alt="">
                 <br>
-                some user
+                <router-link :to="`/user/${firstReply.user_id}`">{{ reply.user_name }}</router-link>
             </Col>
             <Col class="context-bar" span="12">
                 <span v-html="reply.reply_content"/>
@@ -38,6 +38,11 @@
                         </Col>    
                     </Row>
                 </div>
+            </Col>
+        </Row>
+        <Row type="flex" justify="center">
+            <Col>
+                <Page :total=replyNumber show-total @on-change="changePage" />
             </Col>
         </Row>
         <Row type="flex" justify="center">
@@ -63,7 +68,8 @@ export default {
         return {
             topic: '',
             firstReply: '',
-            replies: ''
+            replies: '',
+            replyNumber: 0
         }
     },
     components: {
@@ -71,6 +77,15 @@ export default {
         ForumReply
     },
     methods: {
+        changePage: function(page) {
+            this.$http.get(`/bbs_reply/count?r_topic_id=${this.topic.topic_id}&r_reply_id=${this.firstReply.reply_id}&_sort=id&_start=${10*(page-1)}&_limit=10`)
+                .then(res => {
+                    this.replies = res.data
+                    for (let reply of this.replies) {
+                        reply.isSubReplyShown = false;
+                    }
+                })
+        },
         submitReply: function() {
             var replyContext = this.$store.state.editorContent
             if (replyContext == '') {
@@ -103,8 +118,8 @@ export default {
                     this.$set(this.replies, i, tem_reply)
                     break
                 }
-            }
-            this.$http.get('/bbs_reply?r_topic_id=' + this.topic.topic_id + '&r_reply_id=' + rid + '&_sort=id&_limit=10')
+            }           
+            this.$http.get(`/bbs_reply?r_topic_id=${this.topic.topic_id}&r_reply_id=${rid}&_sort=id&_limit=10`)
                 .then(res => {
                     let tem_reply = this.replies[i]
                     tem_reply.subReplies = res.data
@@ -116,10 +131,14 @@ export default {
         this.$http.get('/bbs_topic/' + this.$route.params.topicId)
             .then(res => {
                 this.topic = res.data
+                this.$http.get(`/bbs_reply/count?r_topic_id=${this.topic.topic_id}`)
+                  .then(res => {
+                    this.replyNumber = parseInt(res.data.reply_number)
+                }) 
                 this.$http.get('/bbs_reply?r_topic_id=' + this.topic.topic_id + '&_limit=1&_sort=id')
                     .then(res => {
                         this.firstReply = res.data[0]
-                        this.$http.get('/bbs_reply?r_topic_id=' + this.topic.topic_id + '&r_reply_id=' + this.firstReply.reply_id + '&_sort=id&_limit=10')
+                        this.$http.get(`/bbs_reply?r_topic_id=${this.topic.topic_id}&r_reply_id=${this.firstReply.reply_id}&_sort=id&_start=0&_limit=10`)
                             .then(res => {
                                 this.replies = res.data
                                 for (let reply of this.replies) {

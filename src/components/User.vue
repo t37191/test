@@ -10,9 +10,24 @@
             <Row type="flex" justify="space-between" align="middle">
                 <Col span="14">
                     <p style="font-size: 3em;">user name</p>
+                    <br>
+                    <div v-if="!isEdit">
+                        <p>年龄：{{ userInfo.age }}</p>
+                        <br>
+                        <p>性别：{{ userInfo.sex }}</p>
+                        <br>
+                        <p>联系方式：{{ userInfo.email }}</p>
+                    </div>
+                    <div v-else>
+                        <div>年龄：<Input type="text" v-model="age"/></div>
+                        <div>性别：<Input type="text" v-model="sex"/></div>
+                        <div></div>
+                    </div>
                 </Col>
                 <Col span="2">
-                    <Button type="info" ghost long>关注</Button>
+                    <Button v-if="$route.params.userId == $store.state.userData.userId"
+                        type="info" ghost long @click="editProfile"
+                    >编辑信息</Button>
                 </Col>
             </Row>
         </Col>
@@ -27,14 +42,6 @@
                 <MenuItem name="fav">
                     <Icon type="md-document" />
                     <span>收藏</span>
-                </MenuItem>
-                <MenuItem name="follow">
-                    <Icon type="ios-person" />
-                    关注的人
-                </MenuItem>
-                <MenuItem name="">
-                    <Icon type="md-chatbubbles" />
-                    动态
                 </MenuItem>
                 <MenuItem v-if="$route.params.userId == $store.state.userData.userId" name="point">
                     <Icon type="md-chatbubbles" />
@@ -66,18 +73,35 @@
 
 <script>
 export default {
+    data() {
+        return {
+            userInfo: '',
+            isEdit: false
+        }
+    },
     methods: {
         changeRoute: function(name) {
             this.$router.push(`/user/${this.$route.params.userId}/${name}`)
+        },
+        editProfile: function() {
+            this.$http.get(`/admin/${this.$store.state.userData.userName}`)
+          .then(res => {
+            this.userInfo = res.data
+        })
+        this.$http.get(`/admin/userlist`)
+          .then(res => {
+            this.userInfo = res.data
+        })
         }
     },
-    computed: {
-        favLink: function() {
-            return '/user/' + this.$route.params.userId + '/fav'
-        }
+    beforeMount: function() {
+        this.$http.get(`/admin/userlist`)
+          .then(res => {
+            this.userInfo = res.data
+        })
     },
-    Mount: function() {
-        this.$router.push(this.favLink)
+    mounted: function() {
+        this.$router.push(`/user/${this.$route.params.userId}/fav`)
     }
 }
 </script>

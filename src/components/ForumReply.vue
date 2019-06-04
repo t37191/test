@@ -33,7 +33,7 @@ export default {
         submit: function() {
             if (this.isEdit) {
                 let reply_data = {
-                    "user_id": 1,
+                    "user_id": this.$store.state.userData.userId,
                     "r_topic_id": this.topic_id,
                     "reply_content": this.replyContent,
                     "r_reply_id": this.rid,
@@ -43,8 +43,17 @@ export default {
                     .then(res => {
                         this.$Message.success('发布成功')
                     })
+                this.isEdit = !this.isEdit
             }
-            this.isEdit = !this.isEdit
+            else {
+                if (this.$store.state.userData.isSignin) {
+                    this.isEdit = !this.isEdit
+                }
+                else {
+                    this.$Message.error('please sign in first')
+                }
+            }
+            
         }
     },
     name: 'ForumReply',

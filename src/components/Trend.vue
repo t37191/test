@@ -2,15 +2,31 @@
 <div class="main">
     <Row type="flex" justify="center">
         <Col span="16">
-            <h1>Title</h1>
-            <p>author name</p>
+            <h1>{{ announcement.title }}</h1>
             <Divider/>
-            <p class="context">正文内容</p>
-            <p class="time">1999-12-24</p>
+            <p class="context">{{ announcement.content }}</p>
+            <p class="time">{{ announcement.time }}</p>
         </Col>
     </Row>
 </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            announcement: ''
+        }
+    },
+    beforeMount: function() {
+        this.$http.get(`/announcement/1?announcement_id=${this.$route.params.trendId}`)
+          .then(res => {
+            this.announcement = res.data
+        })
+    }
+}
+</script>
+
 
 <style scoped>
 .main h1 {

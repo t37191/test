@@ -8,17 +8,20 @@ export const Axios = axios.create({
 //POST传参序列化(添加请求拦截器)
  // 在发送请求之前做某件事
 Axios.interceptors.request.use(config => {
-    if (localStorage.token) {   
-        axios.get('http://localhost:8080/user/refreshtoken?_token='+localStorage.token)
-          .then(res => {
-            if (res.data != '' || res.data != null || res.data != undefined) {
-              localStorage.token = res.data
-            }
-            config.headers.Authorization = 'Bearer ' + localStorage.token
-        }).catch(err => {
-            config.headers.Authorization = 'Bearer ' + localStorage.token
-        })
-    }
+    // if (localStorage.token) {   
+    //     axios.get('http://localhost:8080/user/refreshtoken?_token='+localStorage.token)
+    //       .then(res => {
+    //         if (res.data != '' || res.data != null || res.data != undefined) {
+    //           localStorage.token = res.data
+    //         }
+    //         else {
+    //           localStorage.token = ''
+    //         }
+    //         config.headers.Authorization = 'Bearer ' + localStorage.token
+    //     }).catch(err => {
+    //         config.headers.Authorization = 'Bearer ' + localStorage.token
+    //     })
+    // }
     config.headers.Authorization = 'Bearer ' + localStorage.token
     return config
     
@@ -26,6 +29,34 @@ Axios.interceptors.request.use(config => {
     alert("错误的传参", 'fail')
     return Promise.reject(error)
 })
+
+// export const Axios = axios.create({
+//   baseURL:  'http://localhost:3000/',
+//   timeout: 10000,
+// })
+
+// //POST传参序列化(添加请求拦截器)
+//  // 在发送请求之前做某件事
+// Axios.interceptors.request.use(config => {
+//     if (localStorage.token) {   
+//         // axios.get('http://localhost:8080/user/refreshtoken?_token='+localStorage.token)
+//         //   .then(res => {
+//         //     if (res.data != '' || res.data != null || res.data != undefined) {
+//         //       localStorage.token = res.data
+//         //     }
+//         //     config.headers.Authorization = 'Bearer ' + localStorage.token
+//         // }).catch(err => {
+//         //     config.headers.Authorization = 'Bearer ' + localStorage.token
+//         // })
+//         config.headers.Authorization = 'Bearer ' + localStorage.token
+//     }
+//     config.headers.Authorization = 'Bearer ' + localStorage.token
+//     return config
+    
+// },error =>{
+//     alert("错误的传参", 'fail')
+//     return Promise.reject(error)
+// })
 
 // //返回状态判断(添加响应拦截器)
 // Axios.interceptors.response.use(res =>{
