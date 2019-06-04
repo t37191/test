@@ -33,11 +33,11 @@ export default {
         submit: function() {
             if (this.isEdit) {
                 let reply_data = {
-                    "user_id": this.$store.state.userData.userId,
-                    "r_topic_id": this.topic_id,
-                    "reply_content": this.replyContent,
-                    "r_reply_id": this.rid,
-                    "reply_id": 7
+                    "userid": this.$store.state.userData.userId,
+                    "outcomeid": this.topic_id,
+                    "replycontent": this.replyContent,
+                    "rreplyid": this.rid,
+                    "replytype": 1
                 }
                 this.$http.post('/bbs_reply', reply_data)
                     .then(res => {

@@ -4,7 +4,7 @@
         <Col span="16">
             <h2>{{ paper.title }}</h2>
             <p>
-                <span v-for="author in paper.authors" :key="author.id">&nbsp;&nbsp;{{ author.name }} &nbsp;&nbsp;</span>
+                <router-link v-for="author in paper.authors" :key="author.id" :to="`/expert/${author.id}`">&nbsp;&nbsp;{{ author.name }} &nbsp;&nbsp;</router-link>
             </p>
             <p>
                 {{ paper.year }}
@@ -12,7 +12,7 @@
             <Divider/>
             <p class="abstract">摘要：{{ paper.abstr }}</p>
             <p class="keyword">
-                关键词： <router-link v-for="keyword in paper.keywords" :key="keyword" :to="`/keyword/${keyword}`">&nbsp;{{ keyword }}&nbsp;</router-link>
+                关键词： <span v-for="keyword in paper.keywords" :key="keyword">&nbsp;&nbsp;{{ keyword }}&nbsp;&nbsp;</span>
             </p>
         </Col>
     </Row>
@@ -20,11 +20,6 @@
         <Col span="2">
             <Button v-if="paper.pdf != ''" type="info" long><a :href="paper.pdf">阅读全文</a></Button>
             <Button v-else type="info" long disabled>阅读全文</Button>
-        </Col>
-        <Col span="1">
-        </Col>
-        <Col span="2">
-            <Button type="info" long>收藏</Button>
         </Col>
     </Row>
     <Row type="flex" justify="center">
@@ -38,12 +33,12 @@
         <Col class="profile-bar" span="2">
             <img class="profile-pic" src="../assets/logo.png" alt="">
             <br>
-            <router-link :to="`/user/${reply.user_id}`">{{ reply.user_name }}</router-link>
+            <span>{{ reply.user_name }}</span>
         </Col>
         <Col class="context-bar" span="14">
             <span v-html="reply.reply_content"/>
             <br>
-            <div style="margin-top: 5em;">
+            <!-- <div style="margin-top: 5em;">
                 <Row type="flex" justify="end">
                     <Col>
                     <Button type="text" @click="showSubReply(reply.reply_id)"><span v-if="reply.isSubReplyShown">隐藏</span><span v-else>显示</span>回复</Button>
@@ -56,7 +51,7 @@
                             :reply_content=rReply.reply_content />
                     </Col>    
                 </Row>
-            </div>
+            </div> -->
         </Col>
     </Row>
     <Row type="flex" justify="center">
@@ -96,7 +91,7 @@ export default {
         //                 reply.isSubReplyShown = false;
         //             }
         //         })
-        // },
+        // }
         submitReply: function() {
             var replyContext = this.$store.state.editorContent
             if (replyContext == '') {
@@ -104,11 +99,10 @@ export default {
             }
             else {
                 var reply_data = {
-                    "user_id": 1,
-                    "r_topic_id": this.paper.id,
-                    "reply_content": replyContext,
-                    "r_reply_id": 0,
-                    "reply_id": 5
+                    "userid": parseInt(this.$store.state.userData.userId),
+                    "outcomeid": this.paper.id,
+                    "replycontent": replyContext,
+                    "replytype": 0
                 }
                 this.$http.post('/bbs_reply', reply_data)
                     .then(res => {
@@ -129,11 +123,17 @@ export default {
                     break
                 }
             }           
-            this.$http.get(`/bbs_reply?r_topic_id=${this.paper.id}&r_reply_id=${rid}&_sort=id&_limit=10`)
+            this.$http.get(`/bbs_reply/count?r_outcome_id=${this.paper.id}&reply_id=${rid}&_sort=time&&_start=0&_limit=10`)
                 .then(res => {
-                    let tem_reply = this.replies[i]
-                    tem_reply.subReplies = res.data
-                    this.$set(this.replies, i, tem_reply)
+                    if (res.data != 0) {
+                        this.$http.get(`/bbs_reply?r_outcome_id=${this.paper.id}&reply_id=${rid}&_sort=time&&_start=0&_limit=10`)
+                            .then(res => {
+                                let tem_reply = this.replies[i]
+                                tem_reply.subReplies = res.data
+                                this.$set(this.replies, i, tem_reply)
+                            })
+                    }
+                    
                 })
         }
     },
@@ -146,17 +146,23 @@ export default {
             .catch(err => {
                 console.log(err)
             })
-            this.$http.get(`/bbs_reply/count?r_topic_id=${this.$route.params.paperId}`)
+            this.$http.get(`/bbs_reply/count?r_outcome_id=${this.$route.params.paperId}&reply_id=0`)
                 .then(res => {
-                this.replyNumber = parseInt(res.data.reply_number)
-            }) 
-            this.$http.get(`/bbs_reply?r_topic_id=${this.$route.params.paperId}&r_reply_id=0&_sort=id`)
-                .then(res => {
-                    this.replies = res.data
-                    for (let reply of this.replies) {
-                        reply.isSubReplyShown = false;
-                    }
-                })
+                this.replyNumber = parseInt(res.data)
+                if (this.replyNumber != 0) {
+                    console.log(this.replyNumber)
+                this.$http.get(`/bbs_reply?r_outcome_id=${this.$route.params.paperId}&reply_id=0&_start=0&_limit=${this.replyNumber}`)
+                    .then(res => {
+                        this.replies = res.data
+                        for (let reply of this.replies) {
+                            reply.isSubReplyShown = false
+                            reply.isEdit = false
+                        }
+                    })
+            }
+            })
+            
+            
     }
 }
 </script>

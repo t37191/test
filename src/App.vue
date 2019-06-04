@@ -53,6 +53,7 @@ export default {
   mounted: function() {
     if (this.$store.state.userData.userId == 0 && localStorage.userId != 0) {
       this.$store.commit('updateUserData')
+      console.log(this.$store.state.userData)
     }
   },
   methods: {

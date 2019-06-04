@@ -9,7 +9,7 @@
         <Col span="14" class="profile-box">
             <Row type="flex" justify="space-between" align="middle">
                 <Col span="14">
-                    <p style="font-size: 3em;">user name</p>
+                    <p style="font-size: 3em;">{{ userInfo.username }}</p>
                     <br>
                     <div v-if="!isEdit">
                         <p>年龄：{{ userInfo.age }}</p>
@@ -21,62 +21,32 @@
                     <div v-else>
                         <div>年龄：<Input type="text" v-model="age"/></div>
                         <div>性别：<Input type="text" v-model="sex"/></div>
-                        <div></div>
+                        <div>联系方式：<Input type="text" v-model="email"/></div>
                     </div>
                 </Col>
                 <Col span="2">
                     <Button v-if="$route.params.userId == $store.state.userData.userId"
                         type="info" ghost long @click="editProfile"
-                    >编辑信息</Button>
+                    >{{ curButtonInfo }}</Button>
                 </Col>
             </Row>
-        </Col>
-    </Row>
-    <Row type="flex" justify="center" :gutter="24" style="margin-top: 1em;">
-        <Col span="3">
-            <Menu active-name="fav" @on-select="changeRoute">
-                <!-- <MenuItem name="1">
-                    <Icon type="md-document" />
-                    <router-link tag="span" :to=favLink>收藏</router-link>
-                </MenuItem> -->
-                <MenuItem name="fav">
-                    <Icon type="md-document" />
-                    <span>收藏</span>
-                </MenuItem>
-                <MenuItem v-if="$route.params.userId == $store.state.userData.userId" name="point">
-                    <Icon type="md-chatbubbles" />
-                    我的钱包
-                </MenuItem>
-                <!--div>
-                    <Divider/>
-                    <MenuItem name="4">
-                        <Icon type="md-chatbubbles" />
-                        论文
-                    </MenuItem>
-                    <MenuItem name="5">
-                        <Icon type="md-chatbubbles" />
-                        项目
-                    </MenuItem>
-                    <MenuItem name="6">
-                        <Icon type="md-chatbubbles" />
-                        专利
-                    </MenuItem>
-                </div-->
-            </Menu>
-        </Col>
-        <Col span="14">
-            <router-view></router-view>
         </Col>
     </Row>
 </div>
 </template>
 
 <script>
+import { userInfo } from 'os';
 export default {
     data() {
         return {
             userInfo: '',
-            isEdit: false
+            isEdit: false,
+            buttonInfo: ['编辑信息','提交'],
+            curButtonInfo: '',
+            age: '',
+            sex: '',
+            email: ''
         }
     },
     methods: {
@@ -84,21 +54,37 @@ export default {
             this.$router.push(`/user/${this.$route.params.userId}/${name}`)
         },
         editProfile: function() {
-            this.$http.get(`/admin/${this.$store.state.userData.userName}`)
-          .then(res => {
-            this.userInfo = res.data
-        })
-        this.$http.get(`/admin/userlist`)
-          .then(res => {
-            this.userInfo = res.data
-        })
+            this.isEdit = !this.isEdit
+            if (this.isEdit) {
+                this.curButtonInfo = this.buttonInfo[1]
+                
+            }
+            else {
+                this.curButtonInfo = this.buttonInfo[0]
+                this.userInfo.age = this.age
+                this.userInfo.sex = this.sex
+                this.userInfo.email = this.email
+                this.$http.put(`/admin/update`, this.userInfo)
+                  .then(res => {
+                    this.userInfo = res.data
+                    this.updateInfo()
+                })
+            }
+        },
+        updateInfo: function() {
+            this.age = this.userInfo.age
+            this.email = this.userInfo.email
+            this.sex = this.userInfo.sex
         }
     },
     beforeMount: function() {
-        this.$http.get(`/admin/userlist`)
-          .then(res => {
-            this.userInfo = res.data
-        })
+        this.isEdit = false
+        this.$http.get(`/admin/${this.$store.state.userData.userName}`)
+            .then(res => {
+                this.userInfo = res.data
+                this.updateInfo()
+            })
+        this.curButtonInfo = this.buttonInfo[0]
     },
     mounted: function() {
         this.$router.push(`/user/${this.$route.params.userId}/fav`)

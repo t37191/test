@@ -13,8 +13,8 @@
                 <DropdownItem>
                     <router-link tag="span" :to="`/user/${$store.state.userData.userId}`">My Profile</router-link>
                 </DropdownItem>
-                <!-- <DropdownItem v-if="$store.state.userData.isAdmin"> -->
-                <DropdownItem>
+                <DropdownItem v-if="isAdmin">
+                <!-- <DropdownItem> -->
                     <router-link tag="span" :to="`/trendPost`">发布动态</router-link>
                 </DropdownItem>
                 <DropdownItem>
@@ -37,6 +37,9 @@ export default {
     computed: {
         isSignin: function() {
             return this.$store.state.userData.isSignin
+        },
+        isAdmin: function() {
+            return this.$store.state.userData.isAdmin
         }
     }
 }

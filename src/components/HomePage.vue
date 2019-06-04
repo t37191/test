@@ -38,8 +38,9 @@
                 <p slot="title">动态</p>
                 <ul>
                     <li v-for="trend in trends" :key="trend.id">
-                        <router-link :to="`/trend/${trend.id}`" style="float: left">{{ trend.title }}</router-link>
-                        <span style="float:right">{{ trend.time }}</span>
+                        <div><router-link :to="`/trend/${trend.id}`" style="float: left">{{ trend.title }}</router-link>
+                        <span style="float:right">{{ trend.time }}</span></div>
+                        <br>
                     </li>
                 </ul>
             </Card>

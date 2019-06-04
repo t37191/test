@@ -57,7 +57,11 @@
                         this.$http.post('/user/login', data)
                           .then(res => {
                             if (res.data.token != '') {
-                                this.$store.commit('userSignin', {userId:res.data.user_id, userName:this.formValidate.username, token:res.data.token, isAdmin: res.data.isadmin=='true'?true:false})
+                                let iAdmin = true
+                                if (res.data.isadmin == 'false') {
+                                    iAdmin = false
+                                }
+                                this.$store.commit('userSignin', {userId:res.data.user_id, userName:this.formValidate.username, token:res.data.token, isAdmin: iAdmin})
                                 console.log('signin page')
                                 console.log(this.$store.state.userData)
                                 this.$router.push('/')

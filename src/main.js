@@ -57,7 +57,9 @@ const store = new Vuex.Store({
       state.userData.isSignin = true
       state.userData.userId = localStorage.userId
       state.userData.userName = localStorage.userName
-      state.userData.isAdmin = localStorage.isAdmin
+      state.userData.isAdmin = localStorage.isAdmin == 'true' ? true : false
+      console.log(localStorage.token)
+      console.log(state.userData.isAdmin)
     }
   }
 })
