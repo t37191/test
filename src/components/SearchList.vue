@@ -55,6 +55,14 @@ export default {
                     for (let res of this.resList) {
                         res.title = res.title.replace(new RegExp(this.content, 'g'), `<span style="color:#ed4014">${this.content}</span>`)
                         res.abstr = res.abstr.replace(new RegExp(this.content, 'g'), `<span style="color:#ed4014">${this.content}</span>`)
+                        for (let au of res.authors) {
+                            au.name = au.name.replace(new RegExp(this.content, 'g'), `<span style="color:#ed4014">${this.content}</span>`)
+                        }
+                        let keyword = []
+                        for (let k of res.keywords) {
+                            keyword.push(k.replace(new RegExp(this.content, 'g'), `<span style="color:#ed4014">${this.content}</span>`))
+                        }
+                        res.keywords = keyword
                     }
                 })
         },
