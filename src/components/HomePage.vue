@@ -48,7 +48,7 @@
         <Col span="8">
             <Card dis-hover :bordered="false">
                 <div style="text-align: center">
-                    <router-link :to="`/trend/233`"><img src="../assets/logo.png" alt=""></router-link>
+                    <router-link :to="`/trend/13`"><img src="../assets/logo.png" alt=""></router-link>
                 </div>
             </Card>
         </Col>
