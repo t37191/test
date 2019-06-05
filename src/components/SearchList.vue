@@ -15,11 +15,10 @@
                 </p>
                 <p class="content-info">
                     <span v-for="author in result.authors" :key="author.id">
-                        <router-link :to="`/expert/${author.id}`">&nbsp;{{ author.name }}&nbsp;</router-link>
+                        <router-link :to="`/expert/${author.id}`"><span>&nbsp;&nbsp;</span><span v-html="author.name"></span><span>&nbsp;&nbsp;</span></router-link>
                     </span>
                 </p>
-                <p class="content-info">
-                    {{ result.year }}
+                <p class="content-info" v-html="result.year">
                 </p>
                 <p class="content-abstract" v-html="result.abstr">
                 </p>
@@ -48,10 +47,10 @@ export default {
             this.$http.get(`/search?_type=${this.type}&_content=${this.content}&_start=${(page-1)*10}&_limit=10`)
                 .then(res => {
                     this.resList = res.data
-                    for (let res of this.resList) {
-                        res.title = res.title.replace(new RegExp(this.content, 'g'), `<span style="color:#ed4014">${this.content}</span>`)
-                        res.abstr = res.abstr.replace(new RegExp(this.content, 'g'), `<span style="color:#ed4014">${this.content}</span>`)
-                    }
+                    // for (let res of this.resList) {
+                    //     res.title = res.title.replace(new RegExp(this.content, 'g'), `<span style="color:#ed4014">${this.content}</span>`)
+                    //     res.abstr = res.abstr.replace(new RegExp(this.content, 'g'), `<span style="color:#ed4014">${this.content}</span>`)
+                    // }
                 })
         },
         updateList() {

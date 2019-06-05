@@ -72,7 +72,7 @@ export default {
     beforeMount: function() {
         this.$http.get('/hotpapers')
           .then(res => {
-            this.hotPapers = res.data.slice(0, 10);
+            this.hotPapers = res.data.slice(0, 15);
         })
         this.$http.get('/announcement/count')
           .then(res => {
