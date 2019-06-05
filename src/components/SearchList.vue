@@ -22,6 +22,11 @@
                 </p>
                 <p class="content-abstract" v-html="result.abstr">
                 </p>
+                <p class="content-info">
+                    <span v-for="keyword in result.keywords" :key="keyword">
+                        &nbsp;&nbsp;<span v-html="keyword"></span>&nbsp;&nbsp;
+                    </span>
+                </p>
                 <p>点击量：{{ result.cnt }}</p>
                 <Divider/>
             </Row>
@@ -47,10 +52,10 @@ export default {
             this.$http.get(`/search?_type=${this.type}&_content=${this.content}&_start=${(page-1)*10}&_limit=10`)
                 .then(res => {
                     this.resList = res.data
-                    // for (let res of this.resList) {
-                    //     res.title = res.title.replace(new RegExp(this.content, 'g'), `<span style="color:#ed4014">${this.content}</span>`)
-                    //     res.abstr = res.abstr.replace(new RegExp(this.content, 'g'), `<span style="color:#ed4014">${this.content}</span>`)
-                    // }
+                    for (let res of this.resList) {
+                        res.title = res.title.replace(new RegExp(this.content, 'g'), `<span style="color:#ed4014">${this.content}</span>`)
+                        res.abstr = res.abstr.replace(new RegExp(this.content, 'g'), `<span style="color:#ed4014">${this.content}</span>`)
+                    }
                 })
         },
         updateList() {
